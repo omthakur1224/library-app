@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="user.css">
+</head>
+<body>
+    <h1>User Panel</h1>
+    <div id="user-container">
+
+    </div>
+</body>
+<script>
+    let url="https://library-server.onrender.com/books";
+
+    let getData=async()=>{
+   let response= await fetch(url)
+   response=await response.json();
+   data=response;
+   // console.log(data,'data')
+   document.querySelector('#user-container').innerHTML="";
+   data.map((book)=>display(book))
+  }
+
+  getData();
+
+  let display=(book)=>{
+
+    console.log(book,'book')
+    
+    let card=document.createElement('div');
+
+    let image=document.createElement('img');
+    image.setAttribute('src',book.image_url );
+    
+    let book_name=document.createElement('h4');
+    book_name.innerText=book.book_name;
+
+    let author=document.createElement('p');
+    author.innerText=`Author: ${book.author}`;
+
+    let publisher=document.createElement('p');
+    publisher.innerText=`Publisher:  ${book.publisher}`;
+
+    let edition=document.createElement('p');
+    edition.innerText=`Edition: ${book.edition}`;
+
+    let cost=document.createElement('p');
+    cost.innerText=`Cost: ${book.cost}`;
+
+    card.append(image,book_name,author,publisher,edition,cost);
+
+    document.querySelector('#user-container').append(card);
+  }
+  
+</script>
+</html>

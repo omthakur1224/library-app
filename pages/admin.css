@@ -1,0 +1,26 @@
+.admin-nav{
+    display: flex;
+    justify-content: space-around;
+}
+.admin-nav>button{
+    height: fit-content;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#admin-container{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    width: 80%;
+    gap: 10px;
+}
+#admin-container>div{
+    width: 200px;
+    text-align: left;
+}
+#admin-container>div>img{
+    width: 200px;
+    height: 200px;
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="admin-nav">
+        <div>
+            <h1>Admin DashBoard</h1>
+            <div id="admin-container">
+            </div>
+        </div>
+        <div style="height:100vh ; width: 1px; background-color: black;"></div>
+        <div>
+            <h1>Add Book</h1>
+            <form action="">
+              <input type="text" name="" id="book-name" placeholder="Book Name">
+              <input type="text" id="author-name" placeholder="Author Name">
+              <input type="text" id="edition" placeholder="Edition">
+              <input type="text" id="publisher" placeholder="Publisher">
+              <input type="text" id="cost" placeholder="Cost">
+              <input type="text" id="genre" placeholder="Genre">
+              <input type="link" id="image" placeholder="image url">
+             <div>
+               <label for="">IsBorrowed?</label>
+               <input type="checkbox">
+              </div>
+              <input type="submit" id="submit">
+            </form>
+        </div>
+</body>
+<script>
+  
+  let url="https://library-server.onrender.com/books";
+  let data=[];
+  //get api for fetching data
+  let getData=async()=>{
+   let response= await fetch(url)
+   response=await response.json();
+   data=response;
+   // console.log(data,'data')
+   document.querySelector('#admin-container').innerHTML="";
+   data.map((book)=>display(book))
+  }
+  getData();
+
+  let display=(book)=>{
+
+    console.log(book,'book')
+
+    
+    let card=document.createElement('div');
+
+    let image=document.createElement('img');
+    image.setAttribute('src',book.image_url );
+    
+    let book_name=document.createElement('h4');
+    book_name.innerText=book.book_name;
+
+    let author=document.createElement('p');
+    author.innerText=`Author: ${book.author}`;
+
+    let publisher=document.createElement('p');
+    publisher.innerText=`Publisher:  ${book.publisher}`;
+
+    let edition=document.createElement('p');
+    edition.innerText=`Edition: ${book.edition}`;
+
+    let cost=document.createElement('p');
+    cost.innerText=`Cost: ${book.cost}`;
+
+    card.append(image,book_name,author,publisher,edition,cost);
+
+    document.querySelector('#admin-container').append(card);
+  }
+  let form={
+    book_name:document.querySelector('#book-name'),
+    authour_name:document.querySelector('#author-name'),
+    cost:document.querySelector('#cost'),
+    publisher:document.querySelector('#publisher'),
+    image:document.querySelector('#image'),
+         genre:document.querySelector('#genre'),
+         edition:document.querySelector('#edition'),
+         submit:document.querySelector('#submit')
+   }
+
+//on submit this function will work
+form.submit.addEventListener("click",async(e)=>{
+   e.preventDefault();
+   console.log("handlebook");
+//  fetch(url).then((res)=>res.json()).then((data)=>console.log(data,"ddddddddddddddd"))
+  let book={
+    image_url:form.image.value,
+    book_name:form.book_name.value,
+    author:form.authour_name.value,
+    genre:form.genre.value,
+    edition:form.edition.value,
+    publisher:form.publisher.value,
+    cost:form.cost.value,
+    borrowed:false
+  }
+//posting here
+  await fetch(url,{
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify(book),
+      })
+  .then((res)=>res.json()).then((data)=>{
+    console.log(data);
+    //for making form empty
+    for(let key in form){
+      if(key=='submit')continue;
+      else{
+        form[key].value=""
+      }
+    }
+    getData();
+  })
+  .catch((err)=>console.log(err,"error"))
+ });
+</script>
+</html>
