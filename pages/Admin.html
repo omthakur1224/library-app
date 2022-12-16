@@ -10,7 +10,10 @@
 <body>
     <div class="admin-nav">
         <div>
-            <h1>Admin DashBoard</h1>
+            <div style="display: flex; justify-content: space-between;margin-bottom: 20px;" >
+              <div style="font-weight: bold;font-size: 40px;">Admin DashBoard</div>
+              <button style="height: fit-content;" onclick="logout()">Logout</button>
+            </div>
             <div id="admin-container">
             </div>
         </div>
@@ -38,6 +41,9 @@
   let url="https://library-server.onrender.com/books";
   let data=[];
   //get api for fetching data
+  let logout=()=>{
+    localStorage.clear();
+    window.open('Login.html')}
   let getData=async()=>{
    let response= await fetch(url)
    response=await response.json();
